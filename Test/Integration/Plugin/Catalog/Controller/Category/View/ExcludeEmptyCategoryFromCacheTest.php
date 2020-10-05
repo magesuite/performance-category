@@ -9,7 +9,6 @@ class ExcludeEmptyCategoryFromCacheTest extends \Magento\TestFramework\TestCase\
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/category.php
-     * @magentoCache full_page enabled
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      */
@@ -24,7 +23,6 @@ class ExcludeEmptyCategoryFromCacheTest extends \Magento\TestFramework\TestCase\
 
     /**
      * @magentoDataFixture Magento/Catalog/_files/category_product.php
-     * @magentoCache full_page enabled
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      */
