@@ -5,11 +5,6 @@ namespace MageSuite\PerformanceCategory\Observer;
 class ExcludeEmptyCategoryFromCache implements \Magento\Framework\Event\ObserverInterface
 {
     /**
-     * @var \Magento\Framework\App\Request\Http
-     */
-    protected $request;
-
-    /**
      * @var \Magento\Framework\View\Layout
      */
     protected $layout;
@@ -20,12 +15,10 @@ class ExcludeEmptyCategoryFromCache implements \Magento\Framework\Event\Observer
     protected $registry;
 
     public function __construct(
-        \Magento\Framework\App\Request\Http $request,
         \Magento\Framework\View\Layout $layout,
         \Magento\Framework\Registry $registry
     )
     {
-        $this->request = $request;
         $this->layout = $layout;
         $this->registry = $registry;
     }
@@ -42,13 +35,14 @@ class ExcludeEmptyCategoryFromCache implements \Magento\Framework\Event\Observer
             return;
         }
 
-        $productsList = $this->layout->getBlock('category.products.list');
         $category = $this->getCategory();
 
         if (!$category instanceof \Magento\Catalog\Model\Category
             || $category->getDisplayMode() == \Magento\Catalog\Model\Category::DM_PAGE) {
             return;
         }
+
+        $productsList = $this->layout->getBlock('category.products.list');
 
         if ($productsList instanceof \Magento\Catalog\Block\Product\ListProduct) {
             $productCollection = $productsList->getLoadedProductCollection();
