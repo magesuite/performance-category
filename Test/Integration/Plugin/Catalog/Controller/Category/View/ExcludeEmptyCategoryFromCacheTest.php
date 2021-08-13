@@ -34,4 +34,24 @@ class ExcludeEmptyCategoryFromCacheTest extends \Magento\TestFramework\TestCase\
         $this->assertHeaderPcre('Pragma', '/cache/i');
         $this->assertHeaderPcre('Cache-Control', '/(max-age|public)/i');
     }
+
+    /**
+     * Method overwritten to get rid of deprecated assertRegExp method in PHPUnit 10
+     * @param string $headerName
+     * @param string $valueRegex
+     */
+    public function assertHeaderPcre($headerName, $valueRegex)
+    {
+        $headerFound = false;
+        $headers = $this->getResponse()->getHeaders();
+        foreach ($headers as $header) {
+            if ($header->getFieldName() === $headerName) {
+                $headerFound = true;
+                $this->assertMatchesRegularExpression($valueRegex, $header->getFieldValue());
+            }
+        }
+        if (!$headerFound) {
+            $this->fail("Header '{$headerName}' was not found. Headers dump:\n" . var_export($headers, 1));
+        }
+    }
 }
