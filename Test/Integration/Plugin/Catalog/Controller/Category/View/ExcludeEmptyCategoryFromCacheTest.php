@@ -47,7 +47,9 @@ class ExcludeEmptyCategoryFromCacheTest extends \Magento\TestFramework\TestCase\
         foreach ($headers as $header) {
             if ($header->getFieldName() === $headerName) {
                 $headerFound = true;
-                $this->assertMatchesRegularExpression($valueRegex, $header->getFieldValue());
+
+                $assertMethod = method_exists($this, 'assertMatchesRegularExpression') ?  'assertMatchesRegularExpression' : 'assertRegExp';
+                $this->$assertMethod($valueRegex, $header->getFieldValue());
             }
         }
         if (!$headerFound) {
