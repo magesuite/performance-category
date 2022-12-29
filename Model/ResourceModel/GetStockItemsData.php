@@ -18,7 +18,7 @@ class GetStockItemsData
     public function __construct(
         \MageSuite\PerformanceCategory\Model\ResourceModel\GetStockItemsData\FetchFromIndex $fetchFromIndex,
         \MageSuite\PerformanceCategory\Model\ResourceModel\GetStockItemsData\FetchFromInventory $fetchFromInventory,
-        \Magento\InventoryCatalogApi\Api\DefaultStockProviderInterface $defaultStockProvider,
+        \Magento\InventoryCatalogApi\Api\DefaultStockProviderInterface $defaultStockProvider
     ) {
         $this->fetchFromIndex = $fetchFromIndex;
         $this->fetchFromInventory = $fetchFromInventory;

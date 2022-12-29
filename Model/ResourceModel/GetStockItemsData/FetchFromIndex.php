@@ -16,7 +16,7 @@ class FetchFromIndex
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Magento\InventoryIndexer\Model\StockIndexTableNameResolverInterface $stockIndexTableNameResolver,
+        \Magento\InventoryIndexer\Model\StockIndexTableNameResolverInterface $stockIndexTableNameResolver
     ) {
         $this->resource = $resource;
         $this->stockIndexTableNameResolver = $stockIndexTableNameResolver;
