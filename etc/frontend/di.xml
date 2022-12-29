@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\InventorySales\Model\AreProductsSalable">
+        <plugin name="preload_products_stock_data" type="MageSuite\PerformanceCategory\Plugin\InventorySales\Model\AreProductsSalable\PreloadProductsStockData" sortOrder="100"/>
+    </type>
+    <type name="Magento\InventoryIndexer\Model\ResourceModel\GetStockItemData">
+        <plugin name="inventory_catalog_get_legacy_stock_item_data_from_stock_registry" disabled="true"/>
+        <plugin name="get_data_from_container" type="MageSuite\PerformanceCategory\Plugin\InventoryIndexer\Model\ResourceModel\GetStockItemData\GetDataFromContainer" sortOrder="100"/>
+    </type>
+</config>
