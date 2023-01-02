@@ -30,7 +30,6 @@ class FetchFromIndex
      *     'is_salable => int,
      *   ],
      * ]
-     * @throws \Exception
      */
     public function execute(array $skus, int $stockId): array
     {
@@ -50,13 +49,6 @@ class FetchFromIndex
         );
 
         $stockItems = $connection->fetchAll($select);
-        $foundSkus = array_column($stockItems, \Magento\InventoryIndexer\Indexer\IndexStructure::SKU);
-
-        $missingSkus = array_diff($skus, $foundSkus);
-
-        if (!empty($missingSkus)) {
-            throw new \Exception(sprintf('Not found stock data for products: %s', implode(',', $missingSkus)));
-        }
 
         return $this->prepareResult($stockItems, $stockId);
     }

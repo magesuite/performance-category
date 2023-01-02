@@ -19,11 +19,7 @@ class PreloadProductsStockData
 
     public function beforeExecute(\Magento\InventorySales\Model\AreProductsSalable $subject, array $skus, int $stockId)
     {
-        try {
-            $this->stockItemContainer->initProducts($skus, $stockId);
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage(), $e->getTrace());
-        }
+        $this->stockItemContainer->initProducts($skus, $stockId);
 
         return null;
     }

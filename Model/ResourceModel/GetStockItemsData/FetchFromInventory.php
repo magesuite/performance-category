@@ -30,11 +30,15 @@ class FetchFromInventory
      *     'is_salable => int,
      *   ],
      * ]
-     * @throws \Exception
      */
-    public function execute(array $skus, int $stockId): array
+    public function execute(array $skus): array
     {
-        $productIdsBySkus = $this->getProductIdsBySkus->execute($skus);
+        try {
+            $productIdsBySkus = $this->getProductIdsBySkus->execute($skus);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            return [];
+        }
+
         $productIds = array_values($productIdsBySkus);
 
         $stockItems = $this->getStockItems($productIds);
@@ -45,7 +49,7 @@ class FetchFromInventory
         $skusByProductIds = array_flip($productIdsBySkus);
 
         if (empty($missingProductIds)) {
-            return $this->prepareResult($skusByProductIds, $stockItems, $stockId);
+            return $this->prepareResult($skusByProductIds, $stockItems);
         }
 
         $legacyStockItems = $this->getLegacyStockItems($missingProductIds);
@@ -54,14 +58,12 @@ class FetchFromInventory
         $missingProductIds = array_diff($productIds, $foundProductIds);
 
         if (!empty($missingProductIds)) {
-            throw new \Exception(
-                sprintf('Not found stock data for products: %s', implode(',', $missingProductIds))
-            );
+            return $this->prepareResult($foundProductIds, $stockItems);
         }
 
         $stockItems = array_merge($stockItems, $legacyStockItems);
 
-        return $this->prepareResult($skusByProductIds, $stockItems, $stockId);
+        return $this->prepareResult($skusByProductIds, $stockItems);
     }
 
     /**
@@ -112,7 +114,7 @@ class FetchFromInventory
         return $connection->fetchAll($select);
     }
 
-    protected function prepareResult(array $skusByProductIds, array $stockItems, int $stockId): array
+    protected function prepareResult(array $skusByProductIds, array $stockItems): array
     {
         $result = [];
 
