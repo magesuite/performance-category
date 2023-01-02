@@ -22,12 +22,14 @@ class StockItemData extends \Magento\Framework\DataObject
         parent::__construct($data);
     }
 
-    /**
-     * @throws \Exception
-     */
     public function initProducts(array $skus, int $stockId): void
     {
         $stockItems = $this->getStockItemsData->execute($skus, $stockId);
+
+        if (empty($stockItems)) {
+            return;
+        }
+
         $data = $this->updateKeys($stockItems, $stockId);
 
         $this->addData($data);

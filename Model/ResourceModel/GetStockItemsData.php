@@ -25,13 +25,10 @@ class GetStockItemsData
         $this->defaultStockProvider = $defaultStockProvider;
     }
 
-    /**
-     * @throws \Exception
-     */
     public function execute(array $skus, int $stockId): array
     {
         if ($this->defaultStockProvider->getId() === $stockId) {
-            return $this->fetchFromInventory->execute($skus, $stockId);
+            return $this->fetchFromInventory->execute($skus);
         } else {
             return $this->fetchFromIndex->execute($skus, $stockId);
         }
