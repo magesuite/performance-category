@@ -8,4 +8,7 @@
         <plugin name="inventory_catalog_get_legacy_stock_item_data_from_stock_registry" disabled="true"/>
         <plugin name="get_data_from_container" type="MageSuite\PerformanceCategory\Plugin\InventoryIndexer\Model\ResourceModel\GetStockItemData\GetDataFromContainer" sortOrder="100"/>
     </type>
+    <type name="Smile\ElasticsuiteVirtualCategory\Model\VirtualCategory\Root">
+        <plugin name="cache_virtual_category_root" type="MageSuite\PerformanceCategory\Plugin\Smile\ElasticsuiteVirtualCategory\Model\VirtualCategory\Root\CacheVirtualCategoryRoot" sortOrder="100"/>
+    </type>
 </config>
