@@ -41,29 +41,21 @@ class FetchFromInventory
 
         $productIds = array_values($productIdsBySkus);
 
-        $stockItems = $this->getStockItems($productIds);
+        $allStockItems = $this->getStockItems($productIds);
 
-        $foundProductIds = array_column($stockItems, 'product_id');
+        $foundProductIds = array_column($allStockItems, 'product_id');
         $missingProductIds = array_diff($productIds, $foundProductIds);
 
         $skusByProductIds = array_flip($productIdsBySkus);
 
         if (empty($missingProductIds)) {
-            return $this->prepareResult($skusByProductIds, $stockItems);
+            return $this->prepareResult($skusByProductIds, $allStockItems);
         }
 
         $legacyStockItems = $this->getLegacyStockItems($missingProductIds);
+        $allStockItems = array_merge($allStockItems, $legacyStockItems);
 
-        $foundProductIds = array_column($stockItems, 'product_id');
-        $missingProductIds = array_diff($productIds, $foundProductIds);
-
-        if (!empty($missingProductIds)) {
-            return $this->prepareResult($foundProductIds, $stockItems);
-        }
-
-        $stockItems = array_merge($stockItems, $legacyStockItems);
-
-        return $this->prepareResult($skusByProductIds, $stockItems);
+        return $this->prepareResult($skusByProductIds, $allStockItems);
     }
 
     /**
@@ -105,6 +97,7 @@ class FetchFromInventory
             [
                 \Magento\InventorySalesApi\Model\GetStockItemDataInterface::QUANTITY => 'qty',
                 \Magento\InventorySalesApi\Model\GetStockItemDataInterface::IS_SALABLE => 'is_in_stock',
+                'product_id',
             ]
         )->where(
             'product_id IN (?)',
