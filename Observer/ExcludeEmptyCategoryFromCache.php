@@ -17,8 +17,7 @@ class ExcludeEmptyCategoryFromCache implements \Magento\Framework\Event\Observer
     public function __construct(
         \Magento\Framework\View\Layout $layout,
         \Magento\Framework\Registry $registry
-    )
-    {
+    ) {
         $this->layout = $layout;
         $this->registry = $registry;
     }
@@ -31,7 +30,7 @@ class ExcludeEmptyCategoryFromCache implements \Magento\Framework\Event\Observer
         $response = $observer->getData('response');
         $actionName = $observer->getData('request')->getFullActionName();
 
-        if($actionName != 'catalog_category_view') {
+        if ($actionName != 'catalog_category_view') {
             return;
         }
 
@@ -44,20 +43,19 @@ class ExcludeEmptyCategoryFromCache implements \Magento\Framework\Event\Observer
 
         $productsList = $this->layout->getBlock('category.products.list');
 
-        if ($productsList instanceof \Magento\Catalog\Block\Product\ListProduct) {
-            $productCollection = $productsList->getLoadedProductCollection();
-
-            if ($productCollection->count() == 0) {
-                $response->setNoCacheHeaders();
-            }
+        if (!$productsList instanceof \Magento\Catalog\Block\Product\ListProduct) {
+            return;
         }
 
-        return;
+        if ($productsList->getLoadedProductCollection()->count() > 0) {
+            return;
+        }
+
+        $response->setNoCacheHeaders();
     }
 
     protected function getCategory()
     {
         return $this->registry->registry('current_category');
     }
-
 }

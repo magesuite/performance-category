@@ -12,14 +12,10 @@ namespace MageSuite\PerformanceCategory\Model\ResourceModel\GetStockItemsData;
 class FetchFromInventory
 {
     protected \Magento\Framework\App\ResourceConnection $resource;
-    protected \Magento\InventoryCatalog\Model\GetProductIdsBySkus $getProductIdsBySkus;
 
-    public function __construct(
-        \Magento\Framework\App\ResourceConnection $resource,
-        \Magento\InventoryCatalog\Model\GetProductIdsBySkus $getProductIdsBySkus
-    ) {
+    public function __construct(\Magento\Framework\App\ResourceConnection $resource)
+    {
         $this->resource = $resource;
-        $this->getProductIdsBySkus = $getProductIdsBySkus;
     }
 
     /**
@@ -34,7 +30,7 @@ class FetchFromInventory
     public function execute(array $skus): array
     {
         try {
-            $productIdsBySkus = $this->getProductIdsBySkus->execute($skus);
+            $productIdsBySkus = $this->getProductIdsBySkus($skus);
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             return [];
         }
@@ -56,6 +52,21 @@ class FetchFromInventory
         $allStockItems = array_merge($allStockItems, $legacyStockItems);
 
         return $this->prepareResult($skusByProductIds, $allStockItems);
+    }
+
+    protected function getProductIdsBySkus(array $skus): array
+    {
+        //$skus should contain strings, otherwise MySQL can return too many records (e.g. records for 123 and 123-1 skus instead just for 123 sku)
+        $skus = array_map('strval', $skus);
+
+        $connection = $this->resource->getConnection();
+
+        $select = $connection
+            ->select()
+            ->from(['cpe' => $connection->getTableName('catalog_product_entity')], ['sku', 'entity_id'])
+            ->where('cpe.sku IN (?)', $skus);
+
+        return $connection->fetchPairs($select);
     }
 
     /**
