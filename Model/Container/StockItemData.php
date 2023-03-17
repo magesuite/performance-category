@@ -47,6 +47,15 @@ class StockItemData extends \Magento\Framework\DataObject
         return sprintf(self::ARRAY_KEY_PATTERN, $sku, $stockId);
     }
 
+    public function cleanProducts(array $skus, int $stockId = \Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID): void
+    {
+        $keys = array_map(function ($sku) use ($stockId) {
+            return $this->getKey($sku, $stockId);
+        }, $skus);
+
+        $this->unsetData($keys);
+    }
+
     protected function updateKeys(array $stockItems, int $stockId): array
     {
         $result = [];

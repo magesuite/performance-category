@@ -11,4 +11,10 @@
     <type name="Smile\ElasticsuiteVirtualCategory\Model\VirtualCategory\Root">
         <plugin name="cache_virtual_category_root" type="MageSuite\PerformanceCategory\Plugin\Smile\ElasticsuiteVirtualCategory\Model\VirtualCategory\Root\CacheVirtualCategoryRoot" sortOrder="100"/>
     </type>
+    <type name="Magento\CatalogInventory\Model\Indexer\Stock\CacheCleaner">
+        <plugin name="clean_container_data_after_cache_clean" type="MageSuite\PerformanceCategory\Plugin\InventoryIndexer\CatalogInventory\Model\Indexer\Stock\CacheCleaner\CleanContainerDataAfterCacheClean" sortOrder="500"/>
+    </type>
+    <type name="Magento\CatalogInventory\Model\Indexer\Stock\CacheCleaner">
+        <plugin name="clean_stock_item_cache_storage_after_cache_clean" type="MageSuite\PerformanceCategory\Plugin\InventoryIndexer\CatalogInventory\Model\Indexer\Stock\CacheCleaner\CleanStockItemCacheStorageAfterCacheClean" sortOrder="600"/>
+    </type>
 </config>
