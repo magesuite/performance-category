@@ -3,6 +3,7 @@
     <module name="MageSuite_PerformanceCategory" setup_version="1.0.0">
         <sequence>
             <module name="Magento_InventorySales"/>
+            <module name="Magento_ConfigurableProduct"/>
         </sequence>
     </module>
 </config>

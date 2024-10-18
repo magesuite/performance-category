@@ -17,4 +17,10 @@
     <type name="Magento\CatalogInventory\Model\Indexer\Stock\CacheCleaner">
         <plugin name="clean_stock_item_cache_storage_after_cache_clean" type="MageSuite\PerformanceCategory\Plugin\InventoryIndexer\CatalogInventory\Model\Indexer\Stock\CacheCleaner\CleanStockItemCacheStorageAfterCacheClean" sortOrder="600"/>
     </type>
+    <type name="Magento\CatalogInventory\Model\ResourceModel\Stock\Status">
+        <plugin name="add_quantity_column_to_select" type="MageSuite\PerformanceCategory\Plugin\CatalogInventory\Model\ResourceModel\Stock\Status\AddQuantityColumnToSelect" sortOrder="-1"/>
+    </type>
+    <type name="Magento\ConfigurableProduct\Model\Product\Type\Configurable">
+        <plugin name="is_option_salable" type="MageSuite\PerformanceCategory\Plugin\ConfigurableProduct\Model\Product\Type\Configurable\OptimizeSalableStatus"/>
+    </type>
 </config>
