@@ -25,7 +25,7 @@ class CleanStockItemCacheStorageAfterCacheClean
         }, $records);
 
         foreach ($skus as $sku) {
-            $this->cacheStorage->delete(\Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID, $sku);
+            $this->cacheStorage->delete($sku, \Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID);
         }
     }
 }
