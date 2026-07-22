@@ -4,6 +4,9 @@
     <type name="Magento\InventorySales\Model\AreProductsSalable">
         <plugin name="preload_products_stock_data" type="MageSuite\PerformanceCategory\Plugin\InventorySales\Model\AreProductsSalable\PreloadProductsStockData" sortOrder="-100"/>
     </type>
+    <type name="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator">
+        <plugin name="preload_stock_for_quote" type="MageSuite\PerformanceCategory\Plugin\Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\PreloadStockForQuote" sortOrder="100"/>
+    </type>
     <type name="Magento\InventoryIndexer\Model\ResourceModel\GetStockItemData">
         <plugin name="inventory_catalog_get_legacy_stock_item_data_from_stock_registry" disabled="true"/>
         <plugin name="get_data_from_container" type="MageSuite\PerformanceCategory\Plugin\InventoryIndexer\Model\ResourceModel\GetStockItemData\GetDataFromContainer" sortOrder="100"/>
@@ -18,7 +21,7 @@
         <plugin name="clean_stock_item_cache_storage_after_cache_clean" type="MageSuite\PerformanceCategory\Plugin\InventoryIndexer\CatalogInventory\Model\Indexer\Stock\CacheCleaner\CleanStockItemCacheStorageAfterCacheClean" sortOrder="600"/>
     </type>
     <type name="Magento\CatalogInventory\Model\ResourceModel\Stock\Status">
-        <plugin name="add_quantity_column_to_select" type="MageSuite\PerformanceCategory\Plugin\CatalogInventory\Model\ResourceModel\Stock\Status\AddQuantityColumnToSelect" sortOrder="-1"/>
+        <plugin name="add_quantity_column_to_select" type="MageSuite\PerformanceCategory\Plugin\Magento\CatalogInventory\Model\ResourceModel\Stock\Status\AddQuantityColumnToSelect" sortOrder="-1"/>
     </type>
     <type name="Magento\ConfigurableProduct\Model\Product\Type\Configurable">
         <plugin name="is_option_salable" type="MageSuite\PerformanceCategory\Plugin\ConfigurableProduct\Model\Product\Type\Configurable\OptimizeSalableStatus"/>

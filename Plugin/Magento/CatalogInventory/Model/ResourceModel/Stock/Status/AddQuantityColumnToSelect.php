@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace MageSuite\PerformanceCategory\Plugin\CatalogInventory\Model\ResourceModel\Stock\Status;
+namespace MageSuite\PerformanceCategory\Plugin\Magento\CatalogInventory\Model\ResourceModel\Stock\Status;
 
 class AddQuantityColumnToSelect
 {

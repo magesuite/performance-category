@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MageSuite\PerformanceCategory\Model\Container;
 
-class StockItemData extends \Magento\Framework\DataObject
+class StockItemData extends \Magento\Framework\DataObject implements \Magento\Framework\ObjectManager\ResetAfterRequestInterface
 {
     /**
      * Use sprintf for generating array key. Parameters: sku, stock_id.
@@ -24,6 +24,16 @@ class StockItemData extends \Magento\Framework\DataObject
 
     public function initProducts(array $skus, int $stockId): void
     {
+        foreach ($skus as $key => $sku) {
+            if ($this->getProductStockItem($sku, $stockId)) {
+                unset($skus[$key]);
+            }
+        }
+
+        if (empty($skus)) {
+            return;
+        }
+
         $stockItems = $this->getStockItemsData->execute($skus, $stockId);
 
         if (empty($stockItems)) {
@@ -67,5 +77,10 @@ class StockItemData extends \Magento\Framework\DataObject
         }
 
         return $result;
+    }
+
+    public function _resetState(): void
+    {
+        $this->unsetData();
     }
 }
